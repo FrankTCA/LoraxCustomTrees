@@ -1,5 +1,4 @@
 [![Issues][issues-shield]][issues-url]
-[![Gehenna License][license-shield]][license-url]
 [![Discord][discord-shield]][discord-url]
 
 <br />
