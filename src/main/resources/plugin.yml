@@ -1,0 +1,9 @@
+name: Lorax
+version: '${version}'
+main: org.infotoast.lorax.Lorax
+api-version: 1.19
+prefix: Lorax
+load: STARTUP
+authors: [ Frank, CoolScreenName ]
+description: Custom Trees Plugin for Minecraft
+website: https://infotoast.org
