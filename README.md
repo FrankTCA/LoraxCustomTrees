@@ -13,7 +13,7 @@
   <p align="center">
     A modern, simplistic custom trees plugin for Paper
     <br />
-    <a href="https://infotoast.org/aka/lorax"><strong>Download plugin »</strong></a>
+    <a href="https://www.spigotmc.org/resources/lorax-custom-trees.94584/"><strong>Download plugin »</strong></a>
     <br />
     <br />
     <a href="https://infotoast.org/aka/easytrees">Download the Datapack</a>
