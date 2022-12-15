@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.Random;
 
 public final class Lorax extends JavaPlugin {
@@ -20,6 +22,50 @@ public final class Lorax extends JavaPlugin {
         // Plugin startup logic
         System.out.println("Starting Lorax Engine...");
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
+        extract();
+    }
+
+    private void extract() {
+        File worldFolder = getServer().getWorldContainer();
+        String worldName = getServer().getWorlds().get(0).getName();
+        String datapackFolder = worldFolder.getAbsolutePath() + File.separator + worldName + File.separator + "datapacks" + File.separator;
+        File dataPackFile = new File(datapackFolder, "EasyTrees.zip");
+        if (!dataPackFile.exists()) {
+            System.out.println("Extracting trees datapack!");
+            copy("EasyTrees.zip", dataPackFile);
+        }
+    }
+
+    private void copy(String fileName, File file) {
+        InputStream is = null;
+        try {
+            is = this.getResource(fileName);
+            OutputStream o = Files.newOutputStream(file.toPath());
+            byte[] buf = new byte[1024];
+            int len;
+            try {
+                while ((len = is.read(buf)) > 0) {
+                    o.write(buf, 0, len);
+                }
+            } catch (IOException ex) {
+                System.err.println("Could not copy datapack file!");
+            } finally {
+                try {
+                    o.close();
+                } catch (IOException e) {
+                    System.err.println("Could not close datapack output stream.");
+                }
+            }
+        } catch (IOException ex) {
+            System.err.println("Could not find datapack file!");
+        } finally {
+            if (is != null)
+                try {
+                    is.close();
+                } catch (IOException ex) {
+                    System.err.println("Could not close datapack input stream.");
+                }
+        }
     }
 
     @Override
