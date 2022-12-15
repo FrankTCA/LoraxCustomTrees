@@ -22,7 +22,6 @@ public final class Lorax extends JavaPlugin {
         // Plugin startup logic
         System.out.println("Starting Lorax Engine...");
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
-        extract();
     }
 
     private void extract() {
@@ -96,6 +95,15 @@ public final class Lorax extends JavaPlugin {
     private class WorldListener implements Listener {
         @EventHandler(priority= EventPriority.LOW)
         public void onWorldInit(WorldInitEvent evt) {
+            extract();
+            getServer().reloadData();
+            getServer().getDatapackManager().getPacks().stream().forEach((d) -> {
+                System.out.println(d.getName());
+                if (d.getName().contains("EasyTrees.zip")) {
+                    System.out.println("The datapack:" + d.getName());
+                    d.setEnabled(true);
+                }
+            });
             evt.getWorld().getPopulators().add(pop);
         }
     }

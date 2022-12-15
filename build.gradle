@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT'
-    compileOnly 'de.tr7zw:item-nbt-api:2.11.1'
+    implementation 'de.tr7zw:item-nbt-api:2.11.1'
 }
 
 def targetJavaVersion = 17
@@ -60,8 +60,10 @@ tasks {
 }
 
 shadowJar {
-    archiveBaseName.set("Lorax-"+archiveVersion+".jar")
+    relocate 'de.tr7zw.changeme.nbtapi', 'de.tr7zw.lorax.nbtapi'
+    dependencies {
+        include(dependency('de.tr7zw:item-nbt-api:2.11.1'))
+    }
     destinationDirectory.set(layout.buildDirectory.dir("distributions"))
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    relocate 'org.tr7zw.changeme.nbtapi', 'org.tr7zw.lorax.nbtapi'
 }
