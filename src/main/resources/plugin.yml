@@ -7,3 +7,10 @@ load: STARTUP
 authors: [ Frank, CoolScreenName ]
 description: Custom Trees Plugin for Minecraft
 website: https://infotoast.org
+commands:
+  loraxme:
+    description: Plants trees in current chunk
+permissions:
+  lorax.loraxme:
+    description: Usage of command /loraxme
+    default: op

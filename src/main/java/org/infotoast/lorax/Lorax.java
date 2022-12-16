@@ -14,13 +14,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public final class Lorax extends JavaPlugin {
     private final Populator pop = new Populator();
+    private static Logger logger;
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("Starting Lorax Engine...");
+        logger = this.getLogger();
+        logger.info("Starting Lorax Engine...");
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
     }
 
@@ -30,7 +33,7 @@ public final class Lorax extends JavaPlugin {
         String datapackFolder = worldFolder.getAbsolutePath() + File.separator + worldName + File.separator + "datapacks" + File.separator;
         File dataPackFile = new File(datapackFolder, "EasyTrees.zip");
         if (!dataPackFile.exists()) {
-            System.out.println("Extracting trees datapack!");
+            logger.info("Extracting trees datapack!");
             copy("EasyTrees.zip", dataPackFile);
         }
     }
@@ -47,22 +50,22 @@ public final class Lorax extends JavaPlugin {
                     o.write(buf, 0, len);
                 }
             } catch (IOException ex) {
-                System.err.println("Could not copy datapack file!");
+                logger.severe("Could not copy datapack file!");
             } finally {
                 try {
                     o.close();
                 } catch (IOException e) {
-                    System.err.println("Could not close datapack output stream.");
+                    logger.severe("Could not close datapack output stream.");
                 }
             }
         } catch (IOException ex) {
-            System.err.println("Could not find datapack file!");
+            logger.severe("Could not find datapack file!");
         } finally {
             if (is != null)
                 try {
                     is.close();
                 } catch (IOException ex) {
-                    System.err.println("Could not close datapack input stream.");
+                    logger.severe("Could not close datapack input stream.");
                 }
         }
     }
@@ -74,8 +77,8 @@ public final class Lorax extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equals("loraxmedaddy")) {
-            if (sender.hasPermission("lorax.loraxmedaddy")) {
+        if (label.equals("loraxme")) {
+            if (sender.hasPermission("lorax.loraxme")) {
                 if (sender instanceof Player) {
                     Chunk chunk = ((Player) sender).getLocation().getChunk();
                     pop.populate(((Player) sender).getWorld(), new Random(), chunk);
@@ -98,9 +101,7 @@ public final class Lorax extends JavaPlugin {
             extract();
             getServer().reloadData();
             getServer().getDatapackManager().getPacks().stream().forEach((d) -> {
-                System.out.println(d.getName());
                 if (d.getName().contains("EasyTrees.zip")) {
-                    System.out.println("The datapack:" + d.getName());
                     d.setEnabled(true);
                 }
             });
