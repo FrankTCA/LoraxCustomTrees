@@ -1,7 +1,7 @@
 name: Lorax
 version: '${version}'
 main: org.infotoast.lorax.Lorax
-api-version: 1.19
+api-version: 1.20
 prefix: Lorax
 load: STARTUP
 authors: [ Frank, CoolScreenName ]
