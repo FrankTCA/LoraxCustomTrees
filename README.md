@@ -1,5 +1,4 @@
 [![Issues][issues-shield]][issues-url]
-[![Discord][discord-shield]][discord-url]
 
 <br />
 <div align="center">
@@ -18,8 +17,6 @@
     <a href="https://infotoast.org/aka/easytrees">Download the Datapack</a>
     ·
     <a href="https://github.com/FrankTCA/LoraxCustomTrees">Report Bugs</a>
-    ·
-    <a href="https://discord.gg/2wMPtrZbPF">Join our Discord</a>
   </p>
 </div>
 
