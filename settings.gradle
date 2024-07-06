@@ -1,1 +1,2 @@
 rootProject.name = 'Lorax'
+include 'lorax-spigot', 'tc-common:common-config', 'tc-common:common-core', 'tc-common:common-customobject', 'tc-common:common-generator', 'tc-common:common-util'

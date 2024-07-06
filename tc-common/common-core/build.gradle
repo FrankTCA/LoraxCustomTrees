@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+repositories
+        {
+            mavenLocal()
+            mavenCentral()
+        }
+
+properties {
+    description = "Core files of OpenTerrainGenerator"
+    archivesBaseName = 'common-core'
+}
+
+dependencies {
+    implementation project(":tc-common:common-util")
+    implementation project(":tc-common:common-config")
+    implementation project(":tc-common:common-customobject")
+    implementation project(":tc-common:common-generator")
+
+    // Shaded dependencies
+    implementation (
+            'com.fasterxml.jackson.core:jackson-annotations:2.9.0',
+            'com.fasterxml.jackson.core:jackson-core:2.9.7',
+            'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.7',
+            'com.fasterxml.jackson.core:jackson-databind:2.9.7',
+            'org.yaml:snakeyaml:1.23',
+            'it.unimi.dsi:fastutil:8.2.1',
+            'com.google.guava:guava:23.0'
+    )
+}

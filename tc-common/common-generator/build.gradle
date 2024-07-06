@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+repositories
+        {
+            mavenLocal()
+            mavenCentral()
+        }
+
+description = "Core files of OpenTerrainGenerator"
+archivesBaseName = 'common-generator'
+
+dependencies {
+    implementation project(":tc-common:common-util")
+    implementation project(":tc-common:common-config")
+
+    // Provided by Minecraft
+    implementation("it.unimi.dsi:fastutil:8.2.1")
+    implementation("com.google.guava:guava:23.0")
+}

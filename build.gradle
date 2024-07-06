@@ -4,8 +4,69 @@ plugins {
     id 'xyz.jpenilla.run-paper' version '2.3.0'
 }
 
-group = 'org.infotoast'
-version = '4.3'
+
+import java.util.zip.*
+// The default tasks for all projects
+defaultTasks 'clean', 'build', 'createReleaseJar', 'install'
+
+allprojects
+        {
+            version = '4.3'
+            group = 'org.infotoast'
+
+            // Version of the shadow plugin
+            ext.shadowVersion = '4.3'
+        }
+
+subprojects
+        {   task ->
+
+            task.plugins.withType(JavaBasePlugin)
+                    {
+                        // Generate Eclipse config files when using "gradle eclipse"
+                        task.apply plugin: 'eclipse'
+
+                        // Generate IntelliJ IDEA config files
+                        task.apply plugin: 'idea'
+
+                    }
+        }
+
+static def getJarFile(Project project)
+{
+    String fileName = project.getName() + '-' + project.version + '.jar'
+    return new File(project.getProjectDir(), 'build/libs/' + fileName)
+}
+
+static def addToZip(File source, ZipOutputStream destination, Set<String> alreadyAddedFiles)
+{
+    byte[] buffer = new byte[4096]
+    ZipInputStream inputStream = new ZipInputStream(new FileInputStream(source))
+    ZipEntry nextEntry = inputStream.getNextEntry()
+    while (nextEntry != null)
+    {
+        if (!alreadyAddedFiles.contains(nextEntry.name))
+        {
+            // Start new entry
+            alreadyAddedFiles.add(nextEntry.name)
+            destination.putNextEntry(new ZipEntry(nextEntry))
+
+            // Transfer all bytes
+            int bytesRead = inputStream.read(buffer)
+            while (bytesRead > 0)
+            {
+                destination.write(buffer, 0, bytesRead)
+
+                bytesRead = inputStream.read(buffer)
+            }
+        }
+
+        // Done reading this entry, on to the next one
+        nextEntry = inputStream.getNextEntry()
+    }
+
+    inputStream.close()
+}
 
 repositories {
     mavenCentral()
@@ -56,6 +117,44 @@ processResources {
 tasks {
     runServer {
         minecraftVersion("1.20.6")
+    }
+}
+
+task buildSubProjects {
+    dependsOn ':tc-common:common-core:build', 'lorax-spigot:build'
+}
+
+task createReleaseJar {
+    dependsOn buildSubProjects
+    doLast {
+        // We're including common only for the external libraries that are packaged with it (using Forge jar-in-jar).
+        File commonCoreFile = getJarFile(project(":tc-common:common-core"))
+        File commonConfigFile = getJarFile(project(":tc-common:common-config"))
+        File commonCustomobjectFile = getJarFile(project(":tc-common:common-customobject"))
+        File commonGeneratorFile = getJarFile(project(":tc-common:common-generator"))
+        File commonUtilFile = getJarFile(project(":tc-common:common-util"))
+        File spigotFile = getJarFile(project(":lorax-spigot"))
+        System.out.println(spigotFile.getAbsolutePath());
+        File ourFile = new File(project.buildDir, 'releases/Lorax-'+project.version+'.jar')
+
+        if (spigotFile.exists())
+        {
+            ourFile.getParentFile().mkdirs()
+            ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(ourFile))
+            Set<String> alreadyAddedFiles = new HashSet<String>()
+
+            addToZip(commonCoreFile, outputStream, alreadyAddedFiles)
+            addToZip(commonConfigFile, outputStream, alreadyAddedFiles)
+            addToZip(commonCustomobjectFile, outputStream, alreadyAddedFiles)
+            addToZip(commonGeneratorFile, outputStream, alreadyAddedFiles)
+            addToZip(commonUtilFile, outputStream, alreadyAddedFiles)
+            addToZip(spigotFile, outputStream, alreadyAddedFiles)
+
+            outputStream.close()
+        } else {
+            println(" Skipping the release jar, as the Spigot, Fabric or Forge file failed")
+            println(" Spigot exists: " + spigotFile.exists())
+        }
     }
 }
 

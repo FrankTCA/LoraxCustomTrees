@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+
+properties {
+    description = "Core files of Lorax"
+    archivesBaseName = 'lorax-spigot'
+}
+
+dependencies {
+    implementation 'io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT'
+    implementation project(":tc-common:common-core")
+    implementation project(":tc-common:common-customobject")
+    implementation project(":tc-common:common-config")
+    implementation project(":tc-common:common-generator")
+    implementation project(":tc-common:common-util")
+}

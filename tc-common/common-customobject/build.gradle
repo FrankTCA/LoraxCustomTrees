@@ -1,0 +1,11 @@
+plugins {
+    id 'java'
+}
+
+description = "Core files of OpenTerrainGenerator"
+archivesBaseName = 'common-customobject'
+
+dependencies {
+    implementation project(":tc-common:common-util")
+    implementation project(":tc-common:common-config")
+}
