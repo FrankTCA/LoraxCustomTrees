@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'xyz.jpenilla.run-paper' version '2.3.0'
+    id 'com.gradleup.shadow' version '8.3.3'
+    id 'xyz.jpenilla.run-paper' version '2.3.1'
 }
 
 group = 'org.infotoast'
@@ -24,13 +24,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT'
-    implementation 'de.tr7zw:item-nbt-api:2.12.4'
+    compileOnly 'io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT'
+    implementation 'de.tr7zw:item-nbt-api:2.13.2'
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
     if (JavaVersion.current() < javaVersion) {
@@ -55,7 +56,7 @@ processResources {
 
 tasks {
     runServer {
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21.1")
     }
 }
 
