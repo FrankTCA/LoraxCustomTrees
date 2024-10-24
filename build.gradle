@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.infotoast'
-version = '4.3'
+version = '5.0'
 
 repositories {
     mavenCentral()
