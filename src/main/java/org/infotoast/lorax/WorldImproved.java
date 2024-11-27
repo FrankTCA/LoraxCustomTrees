@@ -61,12 +61,13 @@ public class WorldImproved {
         int rawX;
         int rawZ;
         int Y;
-        List biomes = new ArrayList<>();
+        List<Biome> biomes = new ArrayList<>();
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 rawX = chunkX * 16 + x;
                 rawZ = chunkZ * 16 + z;
-                for (Y = this.getWorld().getMaxHeight() - 1; okMats.contains(reg.getType(rawX, Y, rawZ)) && Y > -1; Y--);
+                for (Y = this.getWorld().getMaxHeight() - 1;
+                	okMats.contains(reg.getType(rawX, Y, rawZ)) && Y > -1; Y--);
                 if (Y < 1) continue;
                 if (!biomes.contains(getWorld().getBiome(rawX, Y, rawZ)))
                     biomes.add(getWorld().getBiome(rawX,Y,rawZ));

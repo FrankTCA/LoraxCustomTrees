@@ -1,30 +1,48 @@
 package org.infotoast.lorax;
 
-import org.bukkit.Chunk;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.tr7zw.changeme.nbtapi.NBT;
+
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Random;
 import java.util.logging.Logger;
 
 public final class Lorax extends JavaPlugin {
-    private final Populator pop = new Populator();
+
     private static Logger logger;
+    private static Populator pop;
+    private static AppleDropListener appleDropper;
+	private static Lorax instance;
+    
+    public Lorax() {
+
+    	instance = this;
+    	pop = new Populator();
+    	appleDropper = new AppleDropListener();
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         logger = this.getLogger();
         logger.info("Starting Lorax Engine...");
+        
+        logger.info("Pre-loading NBT-API...");
+        if (!NBT.preloadApi()) {
+            getLogger().warning("NBT-API wasn't initialized properly, disabling the plugin");
+            getPluginLoader().disablePlugin(this);
+            return;
+        }
+
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
+        getServer().getPluginManager().registerEvents(appleDropper, this);
+        this.getCommand("loraxme").setExecutor(new CommandListener( appleDropper ));
+        this.getCommand("loraxset").setExecutor(new CommandListener( appleDropper ));
     }
 
     private void extract() {
@@ -75,26 +93,6 @@ public final class Lorax extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equals("loraxme")) {
-            if (sender.hasPermission("lorax.loraxme")) {
-                if (sender instanceof Player) {
-                    Chunk chunk = ((Player) sender).getLocation().getChunk();
-                    pop.populate(((Player) sender).getWorld(), new Random(), chunk);
-                    sender.sendMessage("§bChunk has been loraxed!");
-                    ConsoleCommandSender console = getServer().getConsoleSender();
-                    console.sendMessage("[Lorax] §bPlayer §2" + ((Player) sender).getDisplayName() + "§b has loraxed chunk §3(" + chunk.getX() + ", " + chunk.getZ() + ")");
-                    return true;
-                }
-                sender.sendMessage("§4Must be run as a player.");
-                return false;
-            }
-            sender.sendMessage("§4Permission denied.");
-        }
-        return false;
-    }
-
     private class WorldListener implements Listener {
         @EventHandler(priority= EventPriority.LOW)
         public void onWorldInit(WorldInitEvent evt) {
@@ -107,5 +105,13 @@ public final class Lorax extends JavaPlugin {
             });
             evt.getWorld().getPopulators().add(pop);
         }
+    }
+    
+    public static Lorax getInstance() {
+    	return instance;
+    }
+
+    public static Populator getPopulator() {
+    	return pop;
     }
 }

@@ -1,7 +1,9 @@
 package org.infotoast.lorax;
 
+import de.tr7zw.changeme.nbtapi.NBT;
 import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -50,6 +52,11 @@ public class Populator extends BlockPopulator {
             BukkitScheduler scheduler = Lorax.getPlugin(Lorax.class).getServer().getScheduler();
             scheduler.runTask(Lorax.getPlugin(Lorax.class), () -> {
                 Entity as = world.getWorld().spawnEntity(loc, EntityType.AREA_EFFECT_CLOUD);
+                //  WIP - getting off deprecated calls
+                //NBT.modifyPersistentData( as, nbt -> {
+                //    nbt.clearNBT();
+                //    nbt.getOrCreateCompound( "BukkitValues" ).mergeCompound( NBT.parseNBT( "{Duration:10,Radius:0,Tags:[\"sky_planted\",\"sky_template" + treeType + "\",\"sky_small\"]}" ) );
+                //});
                 NBTEntity ent = new NBTEntity(as);
                 ent.mergeCompound(new NBTContainer("{Duration:10,Radius:0,Tags:[\"sky_planted\",\"sky_template" + treeType + "\",\"sky_small\"]}"));
             });
@@ -59,25 +66,25 @@ public class Populator extends BlockPopulator {
     private void doBiome(WorldImproved world, Random random, int x, int z, LimitedRegion chunk) {
         List<Biome> biomesToTransform = world.getBiome(chunk, x, z, okMats);
         for (int i = 0; i < biomesToTransform.size(); i++) {
-            switch (biomesToTransform.get(i)) {
-                case BIRCH_FOREST:
-                case OLD_GROWTH_BIRCH_FOREST:
+            switch (biomesToTransform.get(i).name()) {
+                case "BIRCH_FOREST":
+                case "OLD_GROWTH_BIRCH_FOREST":
                     doBirch(world, random, x, z, chunk);
                     break;
-                case FOREST:
-                case FLOWER_FOREST:
+                case "FOREST":
+                case "FLOWER_FOREST":
                     doOak(world, random, x, z, chunk);
                     break;
-                case TAIGA:
-                case GROVE:
-                case SNOWY_TAIGA:
+                case "TAIGA":
+                case "GROVE":
+                case "SNOWY_TAIGA":
                     doSpruce(world, random, x, z, chunk);
                     break;
-                case SAVANNA:
-                case SAVANNA_PLATEAU:
+                case "SAVANNA":
+                case "SAVANNA_PLATEAU":
                     doAcacia(world, random, x, z, chunk);
                     break;
-                case DARK_FOREST:
+                case "DARK_FOREST":
                     doDarkOak(world, random, x, z, chunk);
             }
         }

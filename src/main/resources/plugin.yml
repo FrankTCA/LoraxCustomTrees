@@ -1,7 +1,7 @@
 name: Lorax
 version: '${version}'
 main: org.infotoast.lorax.Lorax
-api-version: 1.20
+api-version: 1.21
 prefix: Lorax
 load: STARTUP
 authors: [ Frank, CoolScreenName ]
@@ -10,7 +10,12 @@ website: https://infotoast.org
 commands:
   loraxme:
     description: Plants trees in current chunk
+  loraxset:
+    description: Command to enable and configure apple drop by breaking player-heads
 permissions:
   lorax.loraxme:
     description: Usage of command /loraxme
+    default: op
+  lorax.loraxset:
+    description: Usage of commmand /loraxset
     default: op
