@@ -59,25 +59,25 @@ public class Populator extends BlockPopulator {
     private void doBiome(WorldImproved world, Random random, int x, int z, LimitedRegion chunk) {
         List<Biome> biomesToTransform = world.getBiome(chunk, x, z, okMats);
         for (int i = 0; i < biomesToTransform.size(); i++) {
-            switch (biomesToTransform.get(i)) {
-                case BIRCH_FOREST:
-                case OLD_GROWTH_BIRCH_FOREST:
+            switch (biomesToTransform.get(i).translationKey()) {
+                case "biome.minecraft.birch_forest":
+                case "biome.minecraft.old_growth_birch_forest":
                     doBirch(world, random, x, z, chunk);
                     break;
-                case FOREST:
-                case FLOWER_FOREST:
+                case "biome.minecraft.forest":
+                case "biome.minecraft.flower_forest":
                     doOak(world, random, x, z, chunk);
                     break;
-                case TAIGA:
-                case GROVE:
-                case SNOWY_TAIGA:
+                case "biome.minecraft.taiga":
+                case "biome.minecraft.grove":
+                case "biome.minecraft.snowy_taiga":
                     doSpruce(world, random, x, z, chunk);
                     break;
-                case SAVANNA:
-                case SAVANNA_PLATEAU:
+                case "biome.minecraft.savanna":
+                case "biome.minecraft.savanna_plateau":
                     doAcacia(world, random, x, z, chunk);
                     break;
-                case DARK_FOREST:
+                case "biome.minecraft.dark_forest":
                     doDarkOak(world, random, x, z, chunk);
             }
         }
