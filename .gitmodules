@@ -1,0 +1,3 @@
+[submodule "EasyTrees"]
+	path = EasyTrees
+	url = https://github.com/FrankTCA/EasyTrees-Lorax
