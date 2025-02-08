@@ -45,7 +45,20 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+task compressTreeDatapack(type: Zip) {
+    from "EasyTrees/"
+    include "*"
+    include "*/*"
+    include "*/*/*"
+    include "*/*/*/*"
+    include "*/*/*/*/*"
+    include "*/*/*/*/*/*"
+    archiveFileName = "EasyTrees.zip"
+    destinationDirectory = file("src/main/resources/")
+}
+
 processResources {
+    dependsOn(compressTreeDatapack)
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
@@ -60,6 +73,10 @@ tasks {
     }
 }
 
+task cleanTreeDatapack {
+    project.delete(file("src/main/resources/EasyTrees.zip"))
+}
+
 shadowJar {
     relocate('de.tr7zw.changeme.nbtapi', 'de.tr7zw.lorax.nbtapi')
     /*dependencies {
@@ -70,5 +87,10 @@ shadowJar {
 }
 
 build {
+    dependsOn(compressTreeDatapack)
     dependsOn(shadowJar)
+}
+
+clean {
+    dependsOn(cleanTreeDatapack)
 }
