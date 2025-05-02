@@ -11,6 +11,6 @@ commands:
   loraxme:
     description: Plants trees in current chunk
 permissions:
-  lorax.loraxme:
-    description: Usage of command /loraxme
+  lorax.loraxgen:
+    description: Usage of command /loraxgen
     default: op

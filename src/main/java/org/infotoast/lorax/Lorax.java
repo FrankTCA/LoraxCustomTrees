@@ -1,19 +1,15 @@
 package org.infotoast.lorax;
 
-import org.bukkit.Chunk;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import org.infotoast.lorax.command.LoraxGenCommand;
+
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Random;
 import java.util.logging.Logger;
 
 public final class Lorax extends JavaPlugin {
@@ -24,6 +20,7 @@ public final class Lorax extends JavaPlugin {
         // Plugin startup logic
         logger = this.getLogger();
         logger.info("Starting Lorax Engine...");
+        getCommand("loraxgen").setExecutor(new LoraxGenCommand(this, pop));
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
     }
 
@@ -73,26 +70,6 @@ public final class Lorax extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equals("loraxme")) {
-            if (sender.hasPermission("lorax.loraxme")) {
-                if (sender instanceof Player) {
-                    Chunk chunk = ((Player) sender).getLocation().getChunk();
-                    pop.populate(((Player) sender).getWorld(), new Random(), chunk);
-                    sender.sendMessage("§bChunk has been loraxed!");
-                    ConsoleCommandSender console = getServer().getConsoleSender();
-                    console.sendMessage("[Lorax] §bPlayer §2" + ((Player) sender).getDisplayName() + "§b has loraxed chunk §3(" + chunk.getX() + ", " + chunk.getZ() + ")");
-                    return true;
-                }
-                sender.sendMessage("§4Must be run as a player.");
-                return false;
-            }
-            sender.sendMessage("§4Permission denied.");
-        }
-        return false;
     }
 
     private class WorldListener implements Listener {
