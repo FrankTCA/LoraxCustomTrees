@@ -1,0 +1,25 @@
+# Splash text -- this setting allows you to disable splash text.
+# Useful for some consoles which have trouble rendering it
+enable-splash-text: true
+
+# Disable this if you do not want to generate trees automatically.
+# You must use /loraxgen to generate trees if this is disabled
+enable-populator: true
+
+# Choose worlds -- By default we will load the populator on all OVERWORLDS.
+# Enable this option and then add worlds to the list below if you wish to choose worlds
+# Bottomless worlds and nether/end are not supported
+# This setting does nothing if enable-populator is false
+select-worlds: false
+enabled-worlds:
+  - "world"
+
+
+# Messages -- messages that get sent to players
+messages:
+  no-permission: "&4You do not have access to this command."
+  player-only-command: "&4You must be a player to run this command."
+  loraxgen-success: "&bLorax has placed trees in this chunk."
+
+# This setting ensures Lorax will replace this config when it is updated. Do not alter!
+config-version: 1

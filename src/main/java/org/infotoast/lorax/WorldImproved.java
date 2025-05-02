@@ -1,6 +1,7 @@
 package org.infotoast.lorax;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -57,7 +58,7 @@ public class WorldImproved {
         return Bukkit.getWorld(worldName);
     }
 
-    public List<Biome> getBiome(LimitedRegion reg, int chunkX, int chunkZ, List<Material> okMats) {
+    public List<Biome> getBiome(int chunkX, int chunkZ, List<Material> okMats, LimitedRegion source) {
         int rawX;
         int rawZ;
         int Y;
@@ -66,10 +67,24 @@ public class WorldImproved {
             for (int z = 0; z < 16; z++) {
                 rawX = chunkX * 16 + x;
                 rawZ = chunkZ * 16 + z;
-                for (Y = this.getWorld().getMaxHeight() - 1; okMats.contains(reg.getType(rawX, Y, rawZ)) && Y > -1; Y--);
+                for (Y = this.getWorld().getMaxHeight() - 1; okMats.contains(source.getType(rawX, Y, rawZ)) && Y > -1; Y--);
                 if (Y < 1) continue;
-                if (!biomes.contains(getWorld().getBiome(rawX, Y, rawZ)))
-                    biomes.add(getWorld().getBiome(rawX,Y,rawZ));
+                if (!biomes.contains(source.getBiome(rawX, Y, rawZ)))
+                    biomes.add(source.getBiome(rawX,Y,rawZ));
+            }
+        }
+        return biomes;
+    }
+
+    public List<Biome> getBiome(List<Material> okMats, Chunk source) {
+        int Y;
+        List biomes = new ArrayList<>();
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                for (Y = this.getWorld().getMaxHeight() - 1; okMats.contains(source.getBlock(x, Y, z).getType()) && Y > -1; Y--);
+                if (Y < 1) continue;
+                if (!biomes.contains(source.getBlock(x, Y, z).getBiome()))
+                    biomes.add(source.getBlock(x,Y,z).getBiome());
             }
         }
         return biomes;

@@ -2,14 +2,13 @@ package org.infotoast.lorax;
 
 import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.generator.BlockPopulator;
-import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.infotoast.lorax.util.Vector3;
@@ -18,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Populator extends BlockPopulator {
+public class ChunkBasedPopulator {
     private List<Material> okMats = new ArrayList<>();
     private List<Material> notOkMats = new ArrayList<>();
-    public Populator() {
+    public ChunkBasedPopulator() {
         okMats.add(Material.AIR);
         okMats.add(Material.OAK_LEAVES);
         okMats.add(Material.OAK_LOG);
@@ -39,8 +38,7 @@ public class Populator extends BlockPopulator {
         notOkMats.add(Material.SAND);
         notOkMats.add(Material.STONE);
     }
-    @Override
-    public void populate(WorldInfo world, Random random, int x, int z, LimitedRegion source) {
+    public void populate(WorldInfo world, Random random, int x, int z, Chunk source) {
         WorldImproved worldi = WorldImproved.get(world);
         if (world.getEnvironment().equals(World.Environment.NORMAL)) doBiome(worldi, random, x, z, source);
     }
@@ -57,50 +55,50 @@ public class Populator extends BlockPopulator {
         }
     }
 
-    private void doBiome(WorldImproved world, Random random, int x, int z, LimitedRegion chunk) {
-        List<Biome> biomesToTransform = world.getBiome(x, z, okMats, chunk);
+    private void doBiome(WorldImproved world, Random random, int x, int z, Chunk source) {
+        List<Biome> biomesToTransform = world.getBiome(okMats, source);
         for (int i = 0; i < biomesToTransform.size(); i++) {
             switch (biomesToTransform.get(i).translationKey()) {
                 case "biome.minecraft.birch_forest":
                 case "biome.minecraft.old_growth_birch_forest":
-                    doBirch(world, random, x, z, chunk);
+                    doBirch(world, random, x, z, source);
                     break;
                 case "biome.minecraft.forest":
                 case "biome.minecraft.flower_forest":
-                    doOak(world, random, x, z, chunk);
+                    doOak(world, random, x, z, source);
                     break;
                 case "biome.minecraft.taiga":
                 case "biome.minecraft.grove":
                 case "biome.minecraft.snowy_taiga":
-                    doSpruce(world, random, x, z, chunk);
+                    doSpruce(world, random, x, z, source);
                     break;
                 case "biome.minecraft.savanna":
                 case "biome.minecraft.savanna_plateau":
-                    doAcacia(world, random, x, z, chunk);
+                    doAcacia(world, random, x, z, source);
                     break;
                 case "biome.minecraft.dark_forest":
-                    doDarkOak(world, random, x, z, chunk);
+                    doDarkOak(world, random, x, z, source);
             }
         }
     }
 
-    private Vector3 getRandLocation(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private Vector3 getRandLocation(WorldImproved world, Random random, int x, int z, Chunk source) {
         int X = random.nextInt(15);
-        int rawX = x * 16 + X;
+        int rawX = x << 4 + X;
         int Z = random.nextInt(15);
-        int rawZ = z * 16 + Z;
+        int rawZ = z << 4 + Z;
         int Y;
-        for (Y = world.getWorld().getMaxHeight()-1; okMats.contains(reg.getType(rawX, Y, rawZ)) && Y > 0; Y--);
-        if (notOkMats.contains(reg.getType(rawX, Y, rawZ)))
+        for (Y = world.getWorld().getMaxHeight()-1; okMats.contains(source.getBlock(X, Y, Z).getType()) && Y > 0; Y--);
+        if (notOkMats.contains(source.getBlock(X, Y, Z).getType()))
             return null;
         if (Y < 1) return null;
         return new Vector3(rawX, Y, rawZ);
     }
 
-    private void doBirch(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private void doBirch(WorldImproved world, Random random, int x, int z, Chunk source) {
         int amount = random.nextInt(4)+1;
         for (int i = 0; i < amount; i++) {
-            Vector3 v3 = getRandLocation(world, random, x, z, reg);
+            Vector3 v3 = getRandLocation(world, random, x, z, source);
             if (v3 == null) continue;
             int birchType = random.nextInt(3);
             int birchValue = 19;
@@ -113,10 +111,10 @@ public class Populator extends BlockPopulator {
         }
     }
 
-    private void doOak(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private void doOak(WorldImproved world, Random random, int x, int z, Chunk source) {
         int amount = random.nextInt(4)+1;
         for (int i = 0; i < amount; i++) {
-            Vector3 v3 = getRandLocation(world, random, x, z, reg);
+            Vector3 v3 = getRandLocation(world, random, x, z, source);
             if (v3 == null) continue;
             int birchType = random.nextInt(9);
             int birchValue = 19;
@@ -139,10 +137,10 @@ public class Populator extends BlockPopulator {
         }
     }
 
-    private void doSpruce(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private void doSpruce(WorldImproved world, Random random, int x, int z, Chunk source) {
         int amount = random.nextInt(4)+1;
         for (int i = 0; i < amount; i++) {
-            Vector3 v3 = getRandLocation(world, random, x, z, reg);
+            Vector3 v3 = getRandLocation(world, random, x, z, source);
             if (v3 == null) continue;
             int birchType = random.nextInt(3);
             int birchValue = 49;
@@ -155,9 +153,9 @@ public class Populator extends BlockPopulator {
         }
     }
 
-    private void doAcacia(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private void doAcacia(WorldImproved world, Random random, int x, int z, Chunk source) {
         if (random.nextBoolean()) {
-            Vector3 v3 = getRandLocation(world, random, x, z, reg);
+            Vector3 v3 = getRandLocation(world, random, x, z, source);
             if (v3 == null) return;
             int birchType = random.nextInt(4);
             int birchValue = 60;
@@ -172,10 +170,10 @@ public class Populator extends BlockPopulator {
         }
     }
 
-    private void doDarkOak(WorldImproved world, Random random, int x, int z, LimitedRegion reg) {
+    private void doDarkOak(WorldImproved world, Random random, int x, int z, Chunk source) {
         int amount = random.nextInt(4)+1;
         for (int i = 0; i < amount; i++) {
-            Vector3 v3 = getRandLocation(world, random, x, z, reg);
+            Vector3 v3 = getRandLocation(world, random, x, z, source);
             if (v3 == null) continue;
             int birchType = random.nextInt(5);
             int birchValue = 41;
