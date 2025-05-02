@@ -12,6 +12,7 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.infotoast.lorax.util.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;

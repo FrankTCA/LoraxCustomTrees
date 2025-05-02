@@ -1,6 +1,7 @@
-package org.infotoast.lorax;
+package org.infotoast.lorax.util;
 
 import org.bukkit.Location;
+import org.infotoast.lorax.WorldImproved;
 
 public class Vector3 {
     int x;
