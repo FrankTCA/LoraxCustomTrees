@@ -50,6 +50,5 @@ public class TreeSpawner {
 
     public void finalizeObjects() {
         ObjectPlacer.registerObjectsInChunk(world, objectsInChunk);
-        ObjectPlacer.
     }
 }
