@@ -5,6 +5,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
 
@@ -88,5 +89,23 @@ public class WorldImproved {
             }
         }
         return biomes;
+    }
+
+    public void setMaterial(int x, int y, int z, Material block) {
+        synchronized (getWorld().getBlockAt(x, y, z)) {
+            getWorld().getBlockAt(x, y, z).setType(block);
+        }
+    }
+
+    public Material getMaterial(int x, int y, int z) {
+        synchronized (getWorld().getBlockAt(x, y, z)) {
+            return getWorld().getBlockAt(x, y, z).getType();
+        }
+    }
+
+    public void setMaterial(int x, int y, int z, BlockData block) {
+        synchronized (getWorld().getBlockAt(x, y, z)) {
+            getWorld().getBlockAt(x, y, z).setBlockData(block);
+        }
     }
 }

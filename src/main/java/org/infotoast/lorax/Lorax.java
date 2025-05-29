@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public final class Lorax extends JavaPlugin {
     private final Populator pop = new Populator();
     private static Logger logger;
-    private Lorax plugin;
+    public static Lorax plugin;
     @Override
     public void onEnable() {
         // Plugin startup logic
