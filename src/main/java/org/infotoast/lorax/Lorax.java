@@ -8,7 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import org.infotoast.lorax.command.LoraxGenCommand;
+import org.infotoast.lorax.command.CentralCommandExecutor;
+import org.infotoast.lorax.customobject.CustomObjectLoader;
 import org.infotoast.lorax.util.DatapackDecompressor;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ public final class Lorax extends JavaPlugin {
     private final Populator pop = new Populator();
     private static Logger logger;
     public static Lorax plugin;
+    public static CustomObjectLoader loader;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -37,7 +39,7 @@ public final class Lorax extends JavaPlugin {
         }
         logger.info("NBT-API loaded successfully. Loading Lorax Engine...");
         plugin = this;
-        getCommand("loraxgen").setExecutor(new LoraxGenCommand(this, pop));
+        getCommand("lorax").setExecutor(new CentralCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
         logger.info("Lorax Engine loaded successfully!");
         if (getConfig().getBoolean("enable-splash-text")) {

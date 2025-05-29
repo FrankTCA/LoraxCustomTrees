@@ -1,5 +1,6 @@
 package org.infotoast.lorax.customobject.creator;
 
+import com.sk89q.worldedit.math.Vector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -8,7 +9,6 @@ import org.infotoast.lorax.customobject.CustomObject;
 import org.infotoast.lorax.customobject.datatype.CustomObjectBlock;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
 import org.infotoast.lorax.customobject.datatype.ObjectLocation;
-import org.infotoast.lorax.util.Vector3;
 
 import java.util.ArrayList;
 
@@ -29,9 +29,9 @@ public class CustomObjectCreator {
         this.maxX = boundingBox.getMaximumPoint().x();
         this.maxZ = boundingBox.getMaximumPoint().z();
         this.maxY = boundingBox.getMaximumY();
-        this.centerX = (int)Math.floor(center.getX());
-        this.centerZ = (int)Math.floor(center.getZ());
-        this.centerY = (int)Math.floor(center.getY());
+        this.centerX = (int)Math.floor(center.x());
+        this.centerZ = (int)Math.floor(center.z());
+        this.centerY = (int)Math.floor(center.y());
     }
 
     private ArrayList<CustomObjectBlock> readBlocks(World world) {
