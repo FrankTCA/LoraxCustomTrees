@@ -31,7 +31,8 @@ public class CentralCommandExecutor implements CommandExecutor {
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage("/generator help");
+        sender.sendMessage("/lorax help");
         sender.sendMessage(SPAWN.getUsage() + " - " + SPAWN.getHelpMessage());
+        sender.sendMessage(EXPORT.getUsage() + " - " + EXPORT.getHelpMessage());
     }
 }

@@ -103,7 +103,7 @@ public class Utility {
         }
         for (; Y > 30; Y--) {
             if (isGroundBlock(world.getMaterial(x, Y, z))) {
-                return Y;
+                return Y+1;
             }
         }
 

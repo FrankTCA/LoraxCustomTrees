@@ -17,40 +17,43 @@ public class SpawnCommand extends BaseCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (args.length < 2) {
-                sender.sendMessage("§4Usage: " + getUsage());
-                return false;
-            }
-
-            Location loc = player.getLocation();
-            ObjectLocation objectCenter = new ObjectLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-            WorldImproved world = WorldImproved.get(loc.getWorld());
-
-            CustomObject toSpawn = Lorax.loader.getCustomObject(args[1]);
-            int rotation;
-            if (args.length == 3) {
-                try {
-                    rotation = Integer.parseInt(args[2]);
-                } catch (NumberFormatException e) {
-                    sender.sendMessage("§4Rotation can be a number between 0 and 3.");
+            if (sender.hasPermission("lorax.spawn")) {
+                Player player = (Player) sender;
+                if (args.length < 2) {
                     sender.sendMessage("§4Usage: " + getUsage());
                     return false;
                 }
-            } else {
-                rotation = world.getHashedRand(objectCenter.getX(), objectCenter.getY(), objectCenter.getZ()).nextInt(4);
+
+                Location loc = player.getLocation();
+                ObjectLocation objectCenter = new ObjectLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+                WorldImproved world = WorldImproved.get(loc.getWorld());
+
+                CustomObject toSpawn = Lorax.loader.getCustomObject(args[1]);
+                int rotation;
+                if (args.length == 3) {
+                    try {
+                        rotation = Integer.parseInt(args[2]);
+                    } catch (NumberFormatException e) {
+                        sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.invalid-rotation")));
+                        sender.sendMessage("§4Usage: " + getUsage());
+                        return false;
+                    }
+                } else {
+                    rotation = world.getHashedRand(objectCenter.getX(), objectCenter.getY(), objectCenter.getZ()).nextInt(4);
+                }
+
+                PlacedObject obj = toSpawn.getPlacedObject(objectCenter, rotation, world);
+                obj.placeAll();
+
+                sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.spawn-success")));
+                return true;
             }
-
-            PlacedObject obj = toSpawn.getPlacedObject(objectCenter, rotation, world);
-            obj.placeAll();
-
-            sender.sendMessage("§bObject placed!");
-            return true;
-        } else {
-            sender.sendMessage("Must be sent as a player.");
-            sender.sendMessage("Usage: " + getUsage());
+            sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.no-permission")));
             return false;
         }
+        sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.player-only-command")));
+        sender.sendMessage("Usage: " + getUsage());
+        return false;
     }
 
     @Override

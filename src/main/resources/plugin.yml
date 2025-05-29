@@ -8,9 +8,6 @@ authors: [ Frank, CoolScreenName ]
 description: Custom Trees Plugin for Minecraft
 website: https://infotoast.org
 commands:
-  loraxgen:
-    description: Plants trees in current chunk
+  lorax:
+    description: Interface with the lorax generator /lorax help for help
 permissions:
-  lorax.loraxgen:
-    description: Usage of command /loraxgen
-    default: op

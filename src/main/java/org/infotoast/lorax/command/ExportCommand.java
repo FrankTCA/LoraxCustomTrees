@@ -6,6 +6,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.regions.Region;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.customobject.CustomObject;
 import org.infotoast.lorax.customobject.creator.CustomObjectCreator;
 import org.infotoast.lorax.customobject.creator.CustomObjectWriter;
@@ -29,20 +30,28 @@ public class ExportCommand extends BaseCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        Player player = (Player) sender;
-        String objectName = args[1];
-        Region region = getCurrentRegion(player);
+        if (sender instanceof Player) {
+            if (sender.hasPermission("lorax.export")) {
+                Player player = (Player) sender;
+                String objectName = args[1];
+                Region region = getCurrentRegion(player);
 
-        CustomObjectCreator creator = new CustomObjectCreator(region.getBoundingBox(), region.getCenter());
-        CustomObject object = creator.create(objectName, player.getWorld());
+                CustomObjectCreator creator = new CustomObjectCreator(region.getBoundingBox(), region.getCenter());
+                CustomObject object = creator.create(objectName, player.getWorld());
 
-        try {
-            CustomObjectWriter.writeToFile(object);
-            sender.sendMessage("§bExported " + objectName);
-            return true;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                try {
+                    CustomObjectWriter.writeToFile(object);
+                    sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.export-success").replace("%name%", objectName)));
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.no-permission")));
+            return false;
         }
+        sender.sendMessage(Lorax.colorize(Lorax.plugin.getConfig().getString("messages.player-only-command")));
+        return false;
     }
 
     @Override

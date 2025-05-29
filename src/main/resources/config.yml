@@ -18,8 +18,11 @@ enabled-worlds:
 # Messages -- messages that get sent to players
 messages:
   no-permission: "&4You do not have access to this command."
-  player-only-command: "&4You must be a player to run this command."
+  player-only-command: "&cYou must be a player to run this command."
   loraxgen-success: "&bLorax has placed trees in this chunk."
+  export-success: "&bExported %name% to Lorax config folder"
+  invalid-rotation: "&cRotation must be a number between 0 and 3!"
+  spawn-success: "&bObject placed!"
 
 # This setting ensures Lorax will replace this config when it is updated. Do not alter!
 config-version: 1

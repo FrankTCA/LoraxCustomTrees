@@ -8,6 +8,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
+import org.infotoast.lorax.util.Utility;
 
 import java.util.*;
 
@@ -59,7 +60,7 @@ public class WorldImproved {
         return Bukkit.getWorld(worldName);
     }
 
-    public List<Biome> getBiome(int chunkX, int chunkZ, List<Material> okMats, LimitedRegion source) {
+    public List<Biome> getBiome(int chunkX, int chunkZ, LimitedRegion source) {
         int rawX;
         int rawZ;
         int Y;
@@ -68,7 +69,7 @@ public class WorldImproved {
             for (int z = 0; z < 16; z++) {
                 rawX = chunkX * 16 + x;
                 rawZ = chunkZ * 16 + z;
-                for (Y = this.getWorld().getMaxHeight() - 1; okMats.contains(source.getType(rawX, Y, rawZ)) && Y > -1; Y--);
+                Y = Utility.getHeightAt(this, rawX, rawZ);
                 if (Y < 1) continue;
                 if (!biomes.contains(source.getBiome(rawX, Y, rawZ)))
                     biomes.add(source.getBiome(rawX,Y,rawZ));
