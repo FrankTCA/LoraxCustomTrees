@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.generator.LimitedRegion;
+import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.WorldImproved;
 
 import java.util.ArrayList;
@@ -103,6 +105,18 @@ public class Utility {
         }
         for (; Y > 30; Y--) {
             if (isGroundBlock(world.getMaterial(x, Y, z))) {
+                return Y+1;
+            }
+        }
+
+        return 0;
+    }
+
+    public static int getHeightAt(WorldImproved world, int x, int z, LimitedRegion lr) {
+        int Y = lr.getHighestBlockYAt(x, z);
+        // For performance reasons we start at 256 unless the world is amplified or something else is off
+        for (; Y > 30; Y--) {
+            if (isGroundBlock(lr.getType(x, Y, z))) {
                 return Y+1;
             }
         }

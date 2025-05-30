@@ -1,6 +1,7 @@
 package org.infotoast.lorax;
 
 
+import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.customobject.CustomObject;
 import org.infotoast.lorax.customobject.ObjectPlacer;
 import org.infotoast.lorax.customobject.PlacedObject;
@@ -25,20 +26,20 @@ public class TreeSpawner {
         this.chunkZ = chunkZ;
     }
 
-    private Vector3 getRandLocation() {
+    private Vector3 getRandLocation(LimitedRegion lr) {
         int X = rand.nextInt(15);
-        int rawX = chunkX << 4 + X;
+        int rawX = (chunkX << 4) + X;
         int Z = rand.nextInt(15);
-        int rawZ = chunkZ << 4 + Z;
-        int Y = Utility.getHeightAt(world, rawX, rawZ);
+        int rawZ = (chunkZ << 4) + Z;
+        int Y = Utility.getHeightAt(world, rawX, rawZ, lr);
         if (Y < 1) return null;
         return new Vector3(rawX, Y, rawZ);
     }
 
-    public void doTreePlacement(TreeType type) {
+    public void doTreePlacement(TreeType type, LimitedRegion lr) {
         int amount = rand.nextInt(4)+1;
         for (int i = 0; i < amount; i++) {
-            Vector3 v3 = getRandLocation();
+            Vector3 v3 = getRandLocation(lr);
             if (v3 == null) continue;
             ObjectLocation loc = new ObjectLocation(v3.getX(), v3.getY(), v3.getZ());
             CustomObject tree = TreeHolder.getTree(rand, type);
@@ -48,7 +49,7 @@ public class TreeSpawner {
         }
     }
 
-    public void finalizeObjects() {
-        ObjectPlacer.registerObjectsInChunk(world, objectsInChunk);
+    public void finalizeObjects(LimitedRegion reg) {
+        ObjectPlacer.registerObjectsInChunk(world, objectsInChunk, reg);
     }
 }

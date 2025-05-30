@@ -32,9 +32,7 @@ dependencies {
     compileOnly ("com.sk89q.worldedit:worldedit-core:7.3.13") {
         exclude group: "org.yaml"
     }
-    compileOnly "com.sk89q.worldedit:worldedit-bukkit:7.3.10"
-
-    implementation 'de.tr7zw:item-nbt-api:2.15.0'
+    compileOnly "com.sk89q.worldedit:worldedit-bukkit:7.3.13"
 }
 
 def targetJavaVersion = 21
@@ -54,20 +52,7 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
-task compressTreeDatapack(type: Zip) {
-    from "EasyTrees/"
-    include "*"
-    include "*/*"
-    include "*/*/*"
-    include "*/*/*/*"
-    include "*/*/*/*/*"
-    include "*/*/*/*/*/*"
-    archiveFileName = "EasyTrees.zip"
-    destinationDirectory = file("src/main/resources/")
-}
-
 processResources {
-    dependsOn(compressTreeDatapack)
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
@@ -78,28 +63,9 @@ processResources {
 
 tasks {
     runServer {
+        downloadPlugins {
+            url("https://cdn.modrinth.com/data/1u6JkXh5/versions/U0uDF7yg/worldedit-bukkit-7.3.13.jar")
+        }
         minecraftVersion("1.21.5")
     }
-}
-
-task cleanTreeDatapack {
-    project.delete(file("src/main/resources/EasyTrees.zip"))
-}
-
-shadowJar {
-    relocate('de.tr7zw.changeme.nbtapi', 'de.tr7zw.lorax.nbtapi')
-    /*dependencies {
-        include(dependency('de.tr7zw:item-nbt-api:2.12.2'))
-    }*/
-    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-build {
-    dependsOn(compressTreeDatapack)
-    dependsOn(shadowJar)
-}
-
-clean {
-    dependsOn(cleanTreeDatapack)
 }

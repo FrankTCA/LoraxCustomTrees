@@ -1,6 +1,5 @@
 package org.infotoast.lorax;
 
-import de.tr7zw.changeme.nbtapi.NBT;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import org.infotoast.lorax.command.CentralCommandExecutor;
 import org.infotoast.lorax.customobject.CustomObjectLoader;
-import org.infotoast.lorax.util.DatapackDecompressor;
+import org.infotoast.lorax.customobject.exception.CustomObjectLoadingFailedException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,14 +30,15 @@ public final class Lorax extends JavaPlugin {
         logger = this.getLogger();
         logger.info("Starting Lorax Engine...");
         saveDefaultConfig();
-        logger.info("Loading NBT-API...");
-        if (!NBT.preloadApi()) {
-            getLogger().severe("NBT-API could not be loaded! Must disable plugin.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        logger.info("NBT-API loaded successfully. Loading Lorax Engine...");
         plugin = this;
+        logger.info("Loading bo5 custom objects...");
+        this.loader = new CustomObjectLoader();
+        try {
+            loader.loadObjects();
+        } catch (CustomObjectLoadingFailedException e) {
+            e.printStackTrace();
+        }
+        logger.info("Latching lorax engine to run when world loading begins.");
         getCommand("lorax").setExecutor(new CentralCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
         logger.info("Lorax Engine loaded successfully!");
@@ -73,13 +73,14 @@ public final class Lorax extends JavaPlugin {
     private class WorldListener implements Listener {
         @EventHandler(priority= EventPriority.LOW)
         public void onWorldInit(WorldInitEvent evt) {
+            getLogger().info("World " + evt.getWorld().getName() + " is being initialized...");
             if (getConfig().getBoolean("enable-populator")) {
                 if (getConfig().getBoolean("select-worlds"))
                     if (!getConfig().getStringList("enabled-worlds").contains(evt.getWorld().getName()))
                         return;
                 evt.getWorld().getPopulators().add(pop);
+                getLogger().info("Populator enabled for world " + evt.getWorld().getName() + "!");
             }
-            new DatapackDecompressor(plugin).onWorldInit();
         }
     }
 }

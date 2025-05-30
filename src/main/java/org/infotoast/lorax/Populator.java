@@ -37,7 +37,7 @@ public class Populator extends BlockPopulator {
     public void populate(WorldInfo world, Random random, int x, int z, LimitedRegion source) {
         WorldImproved worldi = WorldImproved.get(world);
         if (world.getEnvironment().equals(World.Environment.NORMAL)) doBiome(worldi, random, x, z, source);
-        ObjectPlacer.placeObjectsInChunk(x, z);
+        ObjectPlacer.placeObjectsInChunk(x, z, source);
     }
 
     private void doBiome(WorldImproved world, Random random, int x, int z, LimitedRegion chunk) {
@@ -47,26 +47,26 @@ public class Populator extends BlockPopulator {
             switch (biomesToTransform.get(i).translationKey()) {
                 case "biome.minecraft.birch_forest":
                 case "biome.minecraft.old_growth_birch_forest":
-                    spawner.doTreePlacement(TreeType.BIRCH);
+                    spawner.doTreePlacement(TreeType.BIRCH, chunk);
                     break;
                 case "biome.minecraft.forest":
                 case "biome.minecraft.flower_forest":
-                    spawner.doTreePlacement(TreeType.OAK);
+                    spawner.doTreePlacement(TreeType.OAK, chunk);
                     break;
                 case "biome.minecraft.taiga":
                 case "biome.minecraft.grove":
                 case "biome.minecraft.snowy_taiga":
-                    spawner.doTreePlacement(TreeType.SPRUCE);
+                    spawner.doTreePlacement(TreeType.SPRUCE, chunk);
                     break;
                 case "biome.minecraft.savanna":
                 case "biome.minecraft.savanna_plateau":
-                    spawner.doTreePlacement(TreeType.ACACIA);
+                    spawner.doTreePlacement(TreeType.ACACIA, chunk);
                     break;
                 case "biome.minecraft.dark_forest":
-                    spawner.doTreePlacement(TreeType.DARK_OAK);
+                    spawner.doTreePlacement(TreeType.DARK_OAK, chunk);
             }
         }
 
-        spawner.finalizeObjects();
+        spawner.finalizeObjects(chunk);
     }
 }

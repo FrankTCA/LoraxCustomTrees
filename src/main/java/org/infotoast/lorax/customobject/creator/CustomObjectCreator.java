@@ -31,7 +31,7 @@ public class CustomObjectCreator {
         this.maxY = boundingBox.getMaximumY();
         this.centerX = (int)Math.floor(center.x());
         this.centerZ = (int)Math.floor(center.z());
-        this.centerY = 0;
+        this.centerY = boundingBox.getMinimumY();
     }
 
     private ArrayList<CustomObjectBlock> readBlocks(World world) {

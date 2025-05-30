@@ -1,7 +1,7 @@
 package org.infotoast.lorax.customobject;
 
-import org.bukkit.Chunk;
-import org.bukkit.Location;
+import org.bukkit.generator.LimitedRegion;
+import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.WorldImproved;
 import org.infotoast.lorax.customobject.datatype.CustomObjectCheck;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
@@ -16,7 +16,7 @@ public class PlacedObject extends CustomObject {
     private final int rotation;
     private boolean placed;
     private WorldImproved world;
-    private ArrayList<ChunkCoordsHash> alreadyPlaced = new ArrayList<>();
+    public ArrayList<ChunkCoordsHash> loadedChunks = new ArrayList<>();
     public PlacedObject(String objectName, ArrayList<CustomObjectItem> items, ArrayList<CustomObjectCheck> checks, ObjectLocation centerLocation, int rotation, WorldImproved world) {
         super(objectName, items, checks);
         this.center = centerLocation;
@@ -32,30 +32,49 @@ public class PlacedObject extends CustomObject {
         placed = true;
     }
 
-    public void placeByChunk(int chunkX, int chunkZ) {
-        for (CustomObjectItem item : items) {
+    public void placeAll(LimitedRegion reg) {
+        if (runChecks(reg)) {
+            for (CustomObjectItem item : items) {
+                ObjectLocation loc = item.getLocation().getObjectLocationFromCenter(center);
+                item.place(center, rotation, world);
+                //if (reg.isInRegion(loc.getX(), loc.getY(), loc.getZ())) {
+                //    Lorax.plugin.getLogger().info("Placing item " + item.getName() + " at " + item.getLocation().getObjectLocationFromCenter(center));
+                //    item.place(center, rotation, world, reg);
+                //} else {
+                //    Lorax.plugin.getLogger().info("Placing item " + item.getName() + " at " + item.getLocation().getObjectLocationFromCenter(center));
+                //    item.place(center, rotation, world);
+                //}
+            }
+            placed = true;
+        }
+    }
+
+    public void placeByChunk(int chunkX, int chunkZ, LimitedRegion reg) {
+        loadedChunks.add(new ChunkCoordsHash(chunkX, chunkZ));
+        /*for (CustomObjectItem item : items) {
             ObjectLocation loc = item.getLocation().getObjectLocationFromCenter(center);
+            Lorax.plugin.getLogger().info("Object location " + loc + " chunk " + chunkX + " " + chunkZ);
+            if (Utility.isLocationInChunk(loc.getX(), loc.getZ(), chunkX, chunkZ)) {
+                item.place(center, rotation, world, reg);
+            }
+        }
+        alreadyPlaced.add(new ChunkCoordsHash(chunkX, chunkZ));*/
+    }
+
+    public void placeByChunk(int chunkX, int chunkZ) {
+        /*for (CustomObjectItem item : items) {
+            ObjectLocation loc = item.getLocation().getObjectLocationFromCenter(center);
+            Lorax.plugin.getLogger().info("Object location " + loc + " chunk " + chunkX + " " + chunkZ);
             if (Utility.isLocationInChunk(loc.getX(), loc.getZ(), chunkX, chunkZ)) {
                 item.place(center, rotation, world);
             }
         }
-        alreadyPlaced.add(new ChunkCoordsHash(chunkX, chunkZ));
-
-        Chunk lowestChunk = new Location(world.getWorld(), getLowestRawX(), 1, getLowestRawZ()).getChunk();
-        Chunk highestChunk = new Location(world.getWorld(), getHighestRawX(), 1, getHighestRawZ()).getChunk();
-        for (int x = lowestChunk.getX(); x <= highestChunk.getX(); x++) {
-            for (int z = lowestChunk.getZ(); z <= highestChunk.getZ(); z++) {
-                ChunkCoordsHash chunkCoordsHash = new ChunkCoordsHash(x, z);
-                if (ObjectPlacer.alreadyLoadedChunks.contains(chunkCoordsHash) && !alreadyPlaced.contains(chunkCoordsHash)) {
-                    placeByChunk(x, z);
-                }
-            }
-        }
+        alreadyPlaced.add(new ChunkCoordsHash(chunkX, chunkZ));*/
     }
 
-    public boolean runChecks() {
+    public boolean runChecks(LimitedRegion reg) {
         for (CustomObjectCheck check : checks) {
-            if (!check.check(center, world)) {
+            if (!check.check(center, world, reg)) {
                 return false;
             }
         }

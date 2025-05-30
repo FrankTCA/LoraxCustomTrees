@@ -1,9 +1,6 @@
 package org.infotoast.lorax.customobject;
 
 import org.infotoast.lorax.customobject.exception.CustomObjectLoadingFailedException;
-import org.infotoast.lorax.customobject.exception.InvalidObjectCommandException;
-
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,10 +23,6 @@ public class CustomObjectLoader {
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new CustomObjectLoadingFailedException("Failed to load custom object.");
-        } catch (InvalidObjectCommandException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -38,5 +31,14 @@ public class CustomObjectLoader {
     }
 
     public void loadObjects() throws CustomObjectLoadingFailedException {
+        loadCustomObject("smallOak1", "smallOak1.bo5");
+        loadCustomObject("smallOak2", "smallOak2.bo5");
+        loadCustomObject("smallOak3", "smallOak3.bo5");
+        loadCustomObject("mediumOak1", "mediumOak1.bo5");
+        loadCustomObject("tallOak1", "tallOak1.bo5");
+        loadCustomObject("tallOak2", "tallOak2.bo5");
+        loadCustomObject("greatOak1", "greatOak1.bo5");
+        loadCustomObject("greatOak2", "greatOak2.bo5");
+        loadCustomObject("greatOak3", "greatOak3.bo5");
     }
 }

@@ -69,10 +69,12 @@ public class WorldImproved {
             for (int z = 0; z < 16; z++) {
                 rawX = chunkX * 16 + x;
                 rawZ = chunkZ * 16 + z;
-                Y = Utility.getHeightAt(this, rawX, rawZ);
+                Y = Utility.getHeightAt(this, rawX, rawZ, source);
                 if (Y < 1) continue;
-                if (!biomes.contains(source.getBiome(rawX, Y, rawZ)))
-                    biomes.add(source.getBiome(rawX,Y,rawZ));
+                synchronized(getWorld().getBlockAt(rawX, Y, rawZ)) {
+                    if (!biomes.contains(source.getBiome(rawX, Y, rawZ)))
+                        biomes.add(source.getBiome(rawX,Y,rawZ));
+                }
             }
         }
         return biomes;

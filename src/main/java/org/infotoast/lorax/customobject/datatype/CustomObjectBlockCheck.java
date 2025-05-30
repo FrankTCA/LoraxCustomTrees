@@ -1,12 +1,14 @@
 package org.infotoast.lorax.customobject.datatype;
 
+import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.WorldImproved;
-import org.infotoast.lorax.util.Utility;
 
-public class CustomObjectGroundCheck extends CustomObjectCheck {
-    public CustomObjectGroundCheck(ObjectLocation location) {
+public class CustomObjectBlockCheck extends CustomObjectCheck {
+    private BlockData block;
+    public CustomObjectBlockCheck(ObjectLocation location, BlockData block) {
         super(location);
+        this.block = block;
     }
 
     @Override
@@ -15,29 +17,27 @@ public class CustomObjectGroundCheck extends CustomObjectCheck {
             return getCheckCache();
         }
         ObjectLocation actualLoc = location.getObjectLocationFromCenter(center);
-        int y;
+        BlockData checkBlock;
         if (reg.isInRegion(actualLoc.getX(), actualLoc.getY(), actualLoc.getZ())) {
-            y = Utility.getHeightAt(world, actualLoc.getX(), actualLoc.getZ(), reg);
+            checkBlock = reg.getBlockData(actualLoc.getX(), actualLoc.getY(), actualLoc.getZ());
         } else {
-            y = Utility.getHeightAt(world, actualLoc.getX(), actualLoc.getZ());
+            checkBlock = world.getMaterial(actualLoc.getX(), actualLoc.getY(), actualLoc.getZ()).createBlockData();
         }
-        int checkY = actualLoc.getY();
-
-        boolean answer = checkY <= y;
+        boolean answer = checkBlock.getMaterial().equals(block.getMaterial());
         setCheckCache(answer);
         return answer;
     }
 
     @Override
     public String getName() {
-        return "GroundCheck";
+        return "BlockCheck";
     }
 
     public static String[] getKeywords() {
-        return new String[]{"GroundCheck", "GC"};
+        return new String[]{"BlockCheck", "BC"};
     }
 
     public static String getRESyntax() {
-        return "G.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+\\)";
+        return "B.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+,[A-Z0-9,_:=\\[\\]]+\\)";
     }
 }

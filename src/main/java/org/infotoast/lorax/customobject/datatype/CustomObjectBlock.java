@@ -1,6 +1,7 @@
 package org.infotoast.lorax.customobject.datatype;
 
 import org.bukkit.block.data.BlockData;
+import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.WorldImproved;
 
 public class CustomObjectBlock implements CustomObjectItem {
@@ -19,6 +20,18 @@ public class CustomObjectBlock implements CustomObjectItem {
 
     public BlockData getMaterial() {
         return material;
+    }
+
+    @Override
+    public void place(ObjectLocation center, int rotation, WorldImproved world, LimitedRegion reg) {
+        ObjectLocation loc = location.getLocationRotated(rotation);
+        loc = loc.getObjectLocationFromCenter(center);
+        world.setMaterial(loc.getX(), loc.getY(), loc.getZ(), material);
+        if (reg.isInRegion(loc.getX(), loc.getY(), loc.getZ())) {
+            reg.setBlockData(loc.getX(), loc.getY(), loc.getZ(), material);
+        } else {
+            world.setMaterial(loc.getX(), loc.getY(), loc.getZ(), material);
+        }
     }
 
     @Override

@@ -45,7 +45,7 @@ public class CustomObjectReader {
         return block;
     }
 
-    public static CustomObject read(ObjectFile file) throws IOException, InvalidObjectCommandException {
+    public static CustomObject read(ObjectFile file) {
         ArrayList<CustomObjectItem> items = new ArrayList<CustomObjectItem>();
         ArrayList<CustomObjectCheck> checks = new ArrayList<CustomObjectCheck>();
         String objectName = file.getName();
@@ -71,7 +71,8 @@ public class CustomObjectReader {
                         break;
                     }
                 }
-                // GROUNDCHECK Keyword
+
+                // GROUNDCHECK() Keyword
                 for (String keyword : CustomObjectGroundCheck.getKeywords()) {
                     if (keyword.equalsIgnoreCase(command)) {
                         Pattern pattern = Pattern.compile(CustomObjectGroundCheck.getRESyntax(), Pattern.CASE_INSENSITIVE);
@@ -84,7 +85,60 @@ public class CustomObjectReader {
                             ObjectLocation loc = readLocation(args[0], args[1], args[2]);
                             CustomObjectGroundCheck check = new CustomObjectGroundCheck(loc);
                             checks.add(check);
-                            items.add(new CustomObjectGroundCheck(loc));
+                            items.add(check);
+                        } else {
+                            throw new InvalidObjectCommandException("GroundCheck() syntax error. Please use GroundCheck(x, y, z)");
+                        }
+                    }
+                }
+
+                //RANDOMBLOCK() Keyword
+                for (String keyword : CustomObjectRandomBlock.getKeywords()) {
+                    if (keyword.equalsIgnoreCase(command)) {
+                        Pattern pattern = Pattern.compile(CustomObjectRandomBlock.getRESyntax(), Pattern.CASE_INSENSITIVE);
+                        if (pattern.matcher(line).matches()) {
+                            String params = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                            String[] args = params.split(",");
+                            if (args.length < 5) {
+                                throw new InvalidObjectCommandException("RandomBlock() must include three location args.");
+                            }
+
+                            ObjectLocation loc = readLocation(args[0], args[1], args[2]);
+                            ArrayList<BlockData> blocks = new ArrayList<>();
+                            ArrayList<Integer> chances = new ArrayList<>();
+                            for (int i = 3; i < args.length-1; i += 2) {
+                                blocks.add(readMaterial(args[i]));
+                                chances.add(Integer.parseInt(args[i+1]));
+                            }
+
+                            BlockData[] bd = new BlockData[blocks.size()];
+                            bd = blocks.toArray(bd);
+                            int[] ch = chances.stream().mapToInt(Integer::intValue).toArray();
+                            CustomObjectRandomBlock rb = new CustomObjectRandomBlock(loc, bd, ch);
+                            items.add(rb);
+                        } else {
+                            throw new InvalidObjectCommandException("RandomBlock() syntax error. Please use RandomBlock(x, y, z, material, chance [, material, chance [, material, chance...]])");
+                        }
+                    }
+                }
+
+                // BLOCKCHECK() keyword
+                for (String keyword : CustomObjectBlockCheck.getKeywords()) {
+                    if (keyword.equalsIgnoreCase(command)) {
+                        Pattern pattern = Pattern.compile(CustomObjectBlockCheck.getRESyntax(), Pattern.CASE_INSENSITIVE);
+                        if (pattern.matcher(line).matches()) {
+                            String params = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
+                            String[] args = params.split(",");
+                            if (args.length < 4) {
+                                throw new InvalidObjectCommandException("BlockCheck() must include three location args.");
+                            }
+                            ObjectLocation loc = readLocation(args[0], args[1], args[2]);
+                            BlockData material = readMaterial(args[3]);
+                            CustomObjectBlockCheck check = new CustomObjectBlockCheck(loc, material);
+                            checks.add(check);
+                            items.add(check);
+                        } else {
+                            throw new InvalidObjectCommandException("BlockCheck() syntax error. Please use BlockCheck(x, y, z, material)");
                         }
                     }
                 }
@@ -93,6 +147,9 @@ public class CustomObjectReader {
         } catch (IOException e) {
             e.printStackTrace();
             Lorax.plugin.getServer().getPluginManager().disablePlugin(Lorax.plugin);
+            return null;
+        } catch (InvalidObjectCommandException e) {
+            e.printStackTrace();
             return null;
         }
     }
