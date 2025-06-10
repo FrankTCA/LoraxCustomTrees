@@ -8,4 +8,6 @@ public interface CustomObjectItem {
     public ObjectLocation getLocation();
     public void place(ObjectLocation center, int rotation, WorldImproved world, LimitedRegion reg);
     public void place(ObjectLocation center, int rotation, WorldImproved world);
+    @Override
+    public String toString();
 }

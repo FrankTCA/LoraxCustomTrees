@@ -1,3 +1,5 @@
+RotateRandomy: false
+
 B(-12,13,-4,oak_leaves[distance=7,persistent=true])
 B(-12,12,-3,oak_leaves[distance=7,persistent=true])
 B(-11,12,-4,oak_leaves[distance=7,persistent=true])

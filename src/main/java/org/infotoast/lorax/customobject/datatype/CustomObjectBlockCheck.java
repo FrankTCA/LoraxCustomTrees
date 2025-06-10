@@ -3,6 +3,7 @@ package org.infotoast.lorax.customobject.datatype;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.WorldImproved;
+import org.infotoast.lorax.customobject.creator.CustomObjectWriter;
 
 public class CustomObjectBlockCheck extends CustomObjectCheck {
     private BlockData block;
@@ -39,5 +40,11 @@ public class CustomObjectBlockCheck extends CustomObjectCheck {
 
     public static String getRESyntax() {
         return "B.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+,[A-Z0-9,_:=\\[\\]]+\\)";
+    }
+
+    @Override
+    public String toString() {
+        String blockName = CustomObjectWriter.getBlockName(block);
+        return "BC(" + location + "," +  blockName + ")";
     }
 }

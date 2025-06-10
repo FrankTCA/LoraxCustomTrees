@@ -3,6 +3,7 @@ package org.infotoast.lorax.customobject.datatype;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.WorldImproved;
+import org.infotoast.lorax.customobject.creator.CustomObjectWriter;
 import org.infotoast.lorax.customobject.exception.InvalidObjectCommandException;
 
 public class CustomObjectRandomBlock implements CustomObjectItem {
@@ -68,5 +69,22 @@ public class CustomObjectRandomBlock implements CustomObjectItem {
 
     public static String getRESyntax() {
         return "R.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+,[A-Z0-9,_:=\\[\\]]+\\)";
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("RB(");
+        str.append(location);
+        str.append(",");
+        for (int i = 0; i < blocks.length; i++) {
+            str.append(CustomObjectWriter.getBlockName(blocks[i]));
+            str.append(",");
+            str.append(chances[i]);
+            if (i+1 <  blocks.length) {
+                str.append(",");
+            }
+        }
+        str.append(")");
+        return str.toString();
     }
 }

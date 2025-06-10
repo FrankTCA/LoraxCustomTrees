@@ -17,9 +17,12 @@ public class PlacedObject extends CustomObject {
     private boolean placed;
     private WorldImproved world;
     public ArrayList<ChunkCoordsHash> loadedChunks = new ArrayList<>();
-    public PlacedObject(String objectName, ArrayList<CustomObjectItem> items, ArrayList<CustomObjectCheck> checks, ObjectLocation centerLocation, int rotation, WorldImproved world) {
-        super(objectName, items, checks);
+    public PlacedObject(String objectName, CustomObjectSettings settings, ArrayList<CustomObjectItem> items, ArrayList<CustomObjectCheck> checks, ObjectLocation centerLocation, int rotation, WorldImproved world) {
+        super(objectName, items, checks, settings);
         this.center = centerLocation;
+        if (!settings.isRotateRandomly()) {
+            rotation = 0;
+        }
         this.rotation = rotation;
         this.world = world;
         this.placed = false;
@@ -73,6 +76,12 @@ public class PlacedObject extends CustomObject {
     }
 
     public boolean runChecks(LimitedRegion reg) {
+        if (getLowestRawY() < settings.getMinHeight()) {
+            return false;
+        }
+        if (getHighestRawY() > settings.getMaxHeight()) {
+            return false;
+        }
         for (CustomObjectCheck check : checks) {
             if (!check.check(center, world, reg)) {
                 return false;
@@ -91,6 +100,30 @@ public class PlacedObject extends CustomObject {
             }
         }
         return highestX;
+    }
+
+    public int getHighestY() {
+        int highestY = 0;
+        for (CustomObjectItem item : items) {
+            ObjectLocation loc = item.getLocation();
+            int y = loc.getY();
+            if (y > highestY) {
+                highestY = y;
+            }
+        }
+        return highestY;
+    }
+
+    public int getLowestY() {
+        int lowestY = 0;
+        for (CustomObjectItem item : items) {
+            ObjectLocation loc = item.getLocation();
+            int y = loc.getY();
+            if (y < lowestY) {
+                lowestY = y;
+            }
+        }
+        return lowestY;
     }
 
     public int getLowestX() {
@@ -163,6 +196,14 @@ public class PlacedObject extends CustomObject {
 
     public int getLowestRawX() {
         return center.getX() - Math.abs(getLowestX());
+    }
+
+    public int getHighestRawY() {
+        return center.getY() + Math.abs(getHighestY());
+    }
+
+    public int getLowestRawY() {
+        return center.getY() - Math.abs(getLowestY());
     }
 
     public int getHighestRawZ() {

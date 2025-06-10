@@ -1,3 +1,5 @@
+RotateRandomly: false
+
 B(-2,4,0,oak_leaves[distance=3])
 B(-2,4,1,oak_leaves[distance=2])
 B(-2,5,1,oak_leaves[distance=2])

@@ -2,8 +2,11 @@ package org.infotoast.lorax.customobject.creator;
 
 import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.customobject.CustomObject;
+import org.infotoast.lorax.customobject.CustomObjectSettings;
 import org.infotoast.lorax.customobject.datatype.CustomObjectBlock;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
+
+import org.bukkit.block.data.BlockData;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,21 +24,21 @@ public class CustomObjectWriter {
         file.createNewFile();
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        ArrayList<CustomObjectItem> items = object.getItems();
-        for (CustomObjectItem item : items) {
-            if (item.getName().equals("Block")) {
-                String materialString = ((CustomObjectBlock)item).getMaterial().getAsString();
-                // Replace unneeded block tags
-                materialString = materialString.replace("minecraft:", "");
-                materialString = materialString.replace(",waterlogged=false", "");
-                materialString = materialString.replace("[]", "");
-                if (!materialString.contains("[")) {
-                    materialString = materialString.toUpperCase();
-                }
-                writer.write("B(" + item.getLocation().getX() + "," + item.getLocation().getY() + "," + item.getLocation().getZ() + "," + materialString + ")\n");
-            }
-        }
+        writer.write(object.toString());
         writer.close();
         return true;
+    }
+
+    public static String getBlockName(BlockData blockData) {
+        String materialString = blockData.getAsString();
+        // Replace unneeded block tags
+        materialString = materialString.replace("minecraft:", "");
+        materialString = materialString.replace(",waterlogged=false", "");
+        materialString = materialString.replace("[]", "");
+        if (!materialString.contains("[")) {
+            materialString = materialString.toUpperCase();
+        }
+
+        return materialString;
     }
 }

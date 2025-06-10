@@ -3,6 +3,7 @@ package org.infotoast.lorax.customobject.datatype;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.WorldImproved;
+import org.infotoast.lorax.customobject.creator.CustomObjectWriter;
 
 public class CustomObjectBlock implements CustomObjectItem {
     private ObjectLocation location;
@@ -52,5 +53,11 @@ public class CustomObjectBlock implements CustomObjectItem {
 
     public static String getRESyntax() {
         return "B.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+,[A-Z0-9,_:=\\[\\]]+\\)";
+    }
+
+    @Override
+    public String toString() {
+        String materialString = CustomObjectWriter.getBlockName(material);
+        return "B(" + getLocation() + "," + materialString + ")\n";
     }
 }

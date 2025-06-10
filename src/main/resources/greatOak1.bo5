@@ -1,3 +1,5 @@
+RotateRandomly: false
+
 B(-10,19,2,jungle_leaves[distance=7,persistent=true])
 B(-10,18,3,spruce_leaves[distance=7,persistent=true])
 B(-10,19,3,oak_leaves[distance=7,persistent=true])

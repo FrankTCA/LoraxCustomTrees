@@ -48,9 +48,51 @@ public class CustomObjectReader {
     public static CustomObject read(ObjectFile file) {
         ArrayList<CustomObjectItem> items = new ArrayList<CustomObjectItem>();
         ArrayList<CustomObjectCheck> checks = new ArrayList<CustomObjectCheck>();
+        CustomObjectSettings settings = new CustomObjectSettings();
         String objectName = file.getName();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Lorax.plugin.getResource(file.getFileName())))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                // First, skip commented
+                if (line.startsWith("#")) {
+                    continue;
+                };
+
+                // Then, check for settings
+                if (line.startsWith("Author:")) {
+                    String author = line.substring(line.indexOf(":") + 2);
+                    settings.setAuthor(author);
+                    continue;
+                }
+
+                if (line.startsWith("Version:")) {
+                    String version = line.substring(line.indexOf(":") + 2);
+                    settings.setVersion(Integer.parseInt(version));
+                    continue;
+                }
+
+                if (line.startsWith("Description:")) {
+                    String description = line.substring(line.indexOf(":") + 2);
+                    settings.setDescription(description);
+                    continue;
+                }
+
+                if (line.startsWith("RotateRandomy:")) {
+                    String rotateBool =  line.substring(line.indexOf(":") + 2);
+                    settings.setRotateRandomly(Boolean.parseBoolean(rotateBool));
+                    continue;
+                }
+
+                if (line.startsWith("MinHeight:")) {
+                    String minHeight = line.substring(line.indexOf(":") + 2);
+                    settings.setMinHeight(Integer.parseInt(minHeight));
+                    continue;
+                }
+
+                if (line.startsWith("MaxHeight:")) {
+                    String maxHeight = line.substring(line.indexOf(":") + 2);
+                    settings.setMaxHeight(Integer.parseInt(maxHeight));
+                    continue;
+                }
                 String command = line.split("\\(")[0];
                 // BLOCK() keyword
                 for (String keyword : CustomObjectBlock.getKeywords()) {
@@ -143,7 +185,7 @@ public class CustomObjectReader {
                     }
                 }
             }
-            return new CustomObject(objectName, items, checks);
+            return new CustomObject(objectName, items, checks, settings);
         } catch (IOException e) {
             e.printStackTrace();
             Lorax.plugin.getServer().getPluginManager().disablePlugin(Lorax.plugin);

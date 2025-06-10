@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.infotoast.lorax.customobject.CustomObject;
+import org.infotoast.lorax.customobject.CustomObjectSettings;
 import org.infotoast.lorax.customobject.datatype.CustomObjectBlock;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
 import org.infotoast.lorax.customobject.datatype.ObjectLocation;
@@ -55,6 +56,7 @@ public class CustomObjectCreator {
     public CustomObject create(String name, World world) {
         ArrayList<CustomObjectItem> items = new ArrayList<>();
         items.addAll(readBlocks(world));
-        return new CustomObject(name, items, new ArrayList<>());
+        CustomObjectSettings settings = new CustomObjectSettings();
+        return new CustomObject(name, items, new ArrayList<>(), settings);
     }
 }

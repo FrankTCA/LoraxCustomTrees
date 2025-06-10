@@ -40,4 +40,9 @@ public class CustomObjectGroundCheck extends CustomObjectCheck {
     public static String getRESyntax() {
         return "G.*\\(-?[0-9]+,-?[0-9]+,-?[0-9]+\\)";
     }
+
+    @Override
+    public String toString() {
+        return "GC(" + location + ")";
+    }
 }
