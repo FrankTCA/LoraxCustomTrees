@@ -6,7 +6,12 @@ import java.util.Random;
 
 public class TreeHolder {
     private static final CustomObject[] birch = {
-
+            Lorax.loader.getCustomObject("greatBirch1"),
+            Lorax.loader.getCustomObject("greatBirch2"),
+            Lorax.loader.getCustomObject("smallBirch1"),
+            Lorax.loader.getCustomObject("smallBirch2"),
+            Lorax.loader.getCustomObject("tallBirch1"),
+            Lorax.loader.getCustomObject("tallBirch2")
     };
     private static final CustomObject[] oak = {
             Lorax.loader.getCustomObject("smallOak1"),
@@ -21,7 +26,12 @@ public class TreeHolder {
     };
 
     private static final CustomObject[] spruce = {
-
+            Lorax.loader.getCustomObject("smallSpruce1"),
+            Lorax.loader.getCustomObject("tallSpruce1"),
+            Lorax.loader.getCustomObject("tallSpruce2"),
+            Lorax.loader.getCustomObject("tallSpruce3"),
+            Lorax.loader.getCustomObject("tallSpruce4"),
+            Lorax.loader.getCustomObject("tallSpruce5")
     };
 
     private static final CustomObject[] jungle = {

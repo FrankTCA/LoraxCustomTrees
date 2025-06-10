@@ -40,5 +40,19 @@ public class CustomObjectLoader {
         loadCustomObject("greatOak1", "greatOak1.bo5");
         loadCustomObject("greatOak2", "greatOak2.bo5");
         loadCustomObject("greatOak3", "greatOak3.bo5");
+
+        loadCustomObject("greatBirch1", "greatBirch1.bo5");
+        loadCustomObject("greatBirch2", "greatBirch2.bo5");
+        loadCustomObject("smallBirch1", "smallBirch1.bo5");
+        loadCustomObject("smallBirch2", "smallBirch2.bo5");
+        loadCustomObject("tallBirch1", "tallBirch1.bo5");
+        loadCustomObject("tallBirch2", "tallBirch2.bo5");
+
+        loadCustomObject("smallSpruce1",  "smallSpruce1.bo5");
+        loadCustomObject("tallSpruce1",  "tallSpruce1.bo5");
+        loadCustomObject("tallSpruce2", "tallSpruce2.bo5");
+        loadCustomObject("tallSpruce3", "tallSpruce3.bo5");
+        loadCustomObject("tallSpruce4", "tallSpruce4.bo5");
+        loadCustomObject("tallSpruce5", "tallSpruce5.bo5");
     }
 }
