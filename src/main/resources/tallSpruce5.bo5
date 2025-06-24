@@ -28,8 +28,6 @@ B(-2,13,0,SPRUCE_LEAVES)
 
 B(-2,19,0,SPRUCE_LEAVES)
 
-B(-2,22,0,player_wall_head[facing=west,powered=false])
-
 B(-2,11,1,SPRUCE_LEAVES)
 
 B(-2,15,1,SPRUCE_LEAVES)
