@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'com.gradleup.shadow' version '8.3.6'
     id 'xyz.jpenilla.run-paper' version '2.3.1'
+    id "io.papermc.paperweight.userdev" version "2.0.0-beta.17"
 }
 
 group = 'org.infotoast'
@@ -28,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.6-R0.1-SNAPSHOT'
+    paperweight.paperDevBundle("1.21.6-R0.1-SNAPSHOT")
     compileOnly ("com.sk89q.worldedit:worldedit-core:7.3.13") {
         exclude group: "org.yaml"
     }
@@ -62,6 +63,9 @@ processResources {
 }
 
 tasks {
+    assemble {
+        dependsOn(tasks.reobfJar)
+    }
     runServer {
         downloadPlugins {
             url("https://cdn.modrinth.com/data/1u6JkXh5/versions/U0uDF7yg/worldedit-bukkit-7.3.13.jar")
