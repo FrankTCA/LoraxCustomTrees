@@ -49,7 +49,10 @@ public class TreeHolder {
     };
 
     private static final CustomObject[] darkOak = {
-
+            Lorax.loader.getCustomObject("smallDarkOak1"),
+            Lorax.loader.getCustomObject("mediumDarkOak1"),
+            Lorax.loader.getCustomObject("mediumDarkOak2"),
+            Lorax.loader.getCustomObject("mediumDarkOak3")
     };
 
     static CustomObject getTree(Random rand, TreeType type) {

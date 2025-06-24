@@ -62,5 +62,10 @@ public class CustomObjectLoader {
         loadCustomObject("mediumAcacia3", "mediumAcacia3.bo5");
         loadCustomObject("mediumAcacia4", "mediumAcacia4.bo5");
         loadCustomObject("tallAcacia1", "tallAcacia1.bo5");
+
+        loadCustomObject("smallDarkOak1", "smallDarkOak1.bo5");
+        loadCustomObject("mediumDarkOak1", "mediumDarkOak1.bo5");
+        loadCustomObject("mediumDarkOak2", "mediumDarkOak2.bo5");
+        loadCustomObject("mediumDarkOak3", "mediumDarkOak3.bo5");
     }
 }
