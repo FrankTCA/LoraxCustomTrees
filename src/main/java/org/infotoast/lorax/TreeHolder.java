@@ -39,7 +39,13 @@ public class TreeHolder {
     };
 
     private static final CustomObject[] acacia = {
-
+            Lorax.loader.getCustomObject("greatAcacia1"),
+            Lorax.loader.getCustomObject("greatAcacia2"),
+            Lorax.loader.getCustomObject("mediumAcacia1"),
+            Lorax.loader.getCustomObject("mediumAcacia2"),
+            Lorax.loader.getCustomObject("mediumAcacia3"),
+            Lorax.loader.getCustomObject("mediumAcacia4"),
+            Lorax.loader.getCustomObject("tallAcacia1")
     };
 
     private static final CustomObject[] darkOak = {

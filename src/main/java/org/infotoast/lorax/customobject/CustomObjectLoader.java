@@ -54,5 +54,13 @@ public class CustomObjectLoader {
         loadCustomObject("tallSpruce3", "tallSpruce3.bo5");
         loadCustomObject("tallSpruce4", "tallSpruce4.bo5");
         loadCustomObject("tallSpruce5", "tallSpruce5.bo5");
+
+        loadCustomObject("greatAcacia1", "greatAcacia1.bo5");
+        loadCustomObject("greatAcacia2", "greatAcacia2.bo5");
+        loadCustomObject("mediumAcacia1", "mediumAcacia1.bo5");
+        loadCustomObject("mediumAcacia2", "mediumAcacia2.bo5");
+        loadCustomObject("mediumAcacia3", "mediumAcacia3.bo5");
+        loadCustomObject("mediumAcacia4", "mediumAcacia4.bo5");
+        loadCustomObject("tallAcacia1", "tallAcacia1.bo5");
     }
 }
