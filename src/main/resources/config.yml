@@ -23,6 +23,7 @@ messages:
   export-success: "&bExported %name% to Lorax config folder"
   invalid-rotation: "&cRotation must be a number between 0 and 3!"
   spawn-success: "&bObject placed!"
+  no-worldedit: "&cWorldEdit is required to use this command."
 
 # This setting ensures Lorax will replace this config when it is updated. Do not alter!
 config-version: 1

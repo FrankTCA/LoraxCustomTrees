@@ -9,10 +9,15 @@ public class CentralCommandExecutor implements CommandExecutor {
     private final Lorax plugin;
     public CentralCommandExecutor(Lorax plugin) {
         this.plugin = plugin;
+        if (Lorax.plugin.getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+            EXPORT = new ExportCommand("export");
+        } else {
+            EXPORT = new ExportCommandNoWE("export");
+        }
     }
 
-    private final ExportCommand EXPORT = new ExportCommand("export");
-    private final SpawnCommand SPAWN = new SpawnCommand("spawn");
+    private final BaseCommand EXPORT;
+    private final BaseCommand SPAWN = new SpawnCommand("spawn");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
