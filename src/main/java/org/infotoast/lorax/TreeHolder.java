@@ -35,7 +35,14 @@ public class TreeHolder {
     };
 
     private static final CustomObject[] jungle = {
-
+            Lorax.loader.getCustomObject("largeJungle1"),
+            Lorax.loader.getCustomObject("smallJungle1"),
+            Lorax.loader.getCustomObject("smallJungle2"),
+            Lorax.loader.getCustomObject("tallJungle1"),
+            Lorax.loader.getCustomObject("tallJungle2"),
+            Lorax.loader.getCustomObject("tallJungle3"),
+            Lorax.loader.getCustomObject("tinyJungle1"),
+            Lorax.loader.getCustomObject("tinyJungle2")
     };
 
     private static final CustomObject[] acacia = {

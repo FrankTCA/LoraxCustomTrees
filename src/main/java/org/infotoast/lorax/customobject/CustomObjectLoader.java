@@ -67,5 +67,14 @@ public class CustomObjectLoader {
         loadCustomObject("mediumDarkOak1", "mediumDarkOak1.bo5");
         loadCustomObject("mediumDarkOak2", "mediumDarkOak2.bo5");
         loadCustomObject("mediumDarkOak3", "mediumDarkOak3.bo5");
+
+        loadCustomObject("largeJungle1", "largeJungle1.bo5");
+        loadCustomObject("smallJungle1", "smallJungle1.bo5");
+        loadCustomObject("smallJungle2", "smallJungle2.bo5");
+        loadCustomObject("tallJungle1", "tallJungle1.bo5");
+        loadCustomObject("tallJungle2", "tallJungle2.bo5");
+        loadCustomObject("tallJungle3", "tallJungle3.bo5");
+        loadCustomObject("tinyJungle1", "tinyJungle1.bo5");
+        loadCustomObject("tinyJungle2", "tinyJungle2.bo5");
     }
 }
