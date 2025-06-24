@@ -6,10 +6,6 @@ enable-splash-text: true
 # You must use /loraxgen to generate trees if this is disabled
 enable-populator: true
 
-# Should lorax halt the vanilla generation of trees?
-# If set to false, regular trees will be generated along with Lorax
-disable-vanilla-trees: true
-
 # Choose worlds -- By default we will load the populator on all OVERWORLDS.
 # Enable this option and then add worlds to the list below if you wish to choose worlds
 # Bottomless worlds and nether/end are not supported

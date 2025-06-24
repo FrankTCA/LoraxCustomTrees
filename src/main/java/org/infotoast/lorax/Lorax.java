@@ -41,11 +41,6 @@ public final class Lorax extends JavaPlugin {
         logger.info("Latching lorax engine to run when world loading begins.");
         getCommand("lorax").setExecutor(new CentralCommandExecutor(this));
         getServer().getPluginManager().registerEvents(new WorldListener(), this);
-
-        if (getConfig().getBoolean("disable-vanilla-trees")) {
-            logger.info("Attempting to disable vanilla tree generation!");
-
-        }
         logger.info("Lorax Engine loaded successfully!");
         if (getConfig().getBoolean("enable-splash-text")) {
             BufferedReader splashReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getResource("splash.txt"))));
