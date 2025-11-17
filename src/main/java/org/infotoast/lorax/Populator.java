@@ -44,25 +44,25 @@ public class Populator extends BlockPopulator {
         List<Biome> biomesToTransform = world.getBiome(x, z, chunk);
         TreeSpawner spawner = new TreeSpawner(world, x, z);
         for (int i = 0; i < biomesToTransform.size(); i++) {
-            switch (biomesToTransform.get(i).translationKey()) {
-                case "biome.minecraft.birch_forest":
-                case "biome.minecraft.old_growth_birch_forest":
+            switch (biomesToTransform.get(i).getKey().getKey()) {
+                case "birch_forest":
+                case "old_growth_birch_forest":
                     spawner.doTreePlacement(TreeType.BIRCH, chunk);
                     break;
-                case "biome.minecraft.forest":
-                case "biome.minecraft.flower_forest":
+                case "forest":
+                case "flower_forest":
                     spawner.doTreePlacement(TreeType.OAK, chunk);
                     break;
-                case "biome.minecraft.taiga":
-                case "biome.minecraft.grove":
-                case "biome.minecraft.snowy_taiga":
+                case "taiga":
+                case "grove":
+                case "snowy_taiga":
                     spawner.doTreePlacement(TreeType.SPRUCE, chunk);
                     break;
-                case "biome.minecraft.savanna":
-                case "biome.minecraft.savanna_plateau":
+                case "savanna":
+                case "savanna_plateau":
                     spawner.doTreePlacement(TreeType.ACACIA, chunk);
                     break;
-                case "biome.minecraft.dark_forest":
+                case "dark_forest":
                     spawner.doTreePlacement(TreeType.DARK_OAK, chunk);
             }
         }
