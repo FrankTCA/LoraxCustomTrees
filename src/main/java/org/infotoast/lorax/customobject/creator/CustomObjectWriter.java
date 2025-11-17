@@ -2,9 +2,6 @@ package org.infotoast.lorax.customobject.creator;
 
 import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.customobject.CustomObject;
-import org.infotoast.lorax.customobject.CustomObjectSettings;
-import org.infotoast.lorax.customobject.datatype.CustomObjectBlock;
-import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
 
 import org.bukkit.block.data.BlockData;
 
@@ -12,7 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class CustomObjectWriter {
     public static boolean writeToFile(CustomObject object) throws IOException {

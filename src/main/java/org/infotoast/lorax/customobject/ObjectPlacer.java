@@ -1,8 +1,5 @@
 package org.infotoast.lorax.customobject;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.generator.LimitedRegion;
 import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.WorldImproved;

@@ -1,7 +1,6 @@
 package org.infotoast.lorax.customobject;
 
 import org.infotoast.lorax.WorldImproved;
-import org.infotoast.lorax.customobject.datatype.CustomObjectBlock;
 import org.infotoast.lorax.customobject.datatype.CustomObjectCheck;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
 import org.infotoast.lorax.customobject.datatype.ObjectLocation;

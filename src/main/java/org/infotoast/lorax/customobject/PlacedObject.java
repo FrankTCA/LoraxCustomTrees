@@ -1,13 +1,11 @@
 package org.infotoast.lorax.customobject;
 
 import org.bukkit.generator.LimitedRegion;
-import org.infotoast.lorax.Lorax;
 import org.infotoast.lorax.WorldImproved;
 import org.infotoast.lorax.customobject.datatype.CustomObjectCheck;
 import org.infotoast.lorax.customobject.datatype.CustomObjectItem;
 import org.infotoast.lorax.customobject.datatype.ObjectLocation;
 import org.infotoast.lorax.util.ChunkCoordsHash;
-import org.infotoast.lorax.util.Utility;
 
 import java.util.ArrayList;
 
